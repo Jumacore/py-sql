@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         self.label_4.setWordWrap(False)
         self.label_4.setObjectName("label_4")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(170, 380, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(90, 380, 75, 23))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
@@ -71,6 +71,14 @@ class Ui_MainWindow(object):
         self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_3.setGeometry(QtCore.QRect(120, 280, 161, 31))
         self.lineEdit_3.setObjectName("lineEdit_3")
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(210, 380, 75, 23))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setObjectName("pushButton_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setSizeGripEnabled(True)
@@ -88,7 +96,9 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">NIM :</span></p><p><br/></p></body></html>"))
         self.label_4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Kelas :</span></p><p><br/></p></body></html>"))
         self.pushButton.setText(_translate("MainWindow", "ABSEN!"))
+        self.pushButton_2.setText(_translate("MainWindow", "hapus"))
         self.pushButton.clicked.connect(self.submit)
+        self.pushButton_2.clicked.connect(self.hapus)
 
 
     def submit(self):
@@ -111,6 +121,23 @@ class Ui_MainWindow(object):
         db.commit()
         db.close()
         print("====== Jawaban terekam =======")
+
+    def hapus(self):
+            db = pymysql.connect(
+                host = "localhost",
+                user = "root",
+                password = "",
+                database = "absen"
+            )
+            cursor = db.cursor()
+
+            nim = self.lineEdit_2.text()
+            
+            sql = F""" DELETE FROM ab WHERE nim = '{nim}';"""
+            cursor.execute(sql)
+            db.commit()
+            db.close()
+            print("====== DATA DI HAPUS =======")
 
     
 
